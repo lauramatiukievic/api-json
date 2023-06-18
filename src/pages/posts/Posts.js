@@ -12,21 +12,28 @@ function Posts() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get(`${API_URL}/posts?_limit=${POSTS_PER_PAGE}&_expand=user&_embed=comments`, `${API_URL}/posts?_limit=${POSTS_PER_PAGE}&_expand=user&_embed=comments&userId=${id}`);
+      let fetchUrl;
+      if (id) {
+        fetchUrl = `${API_URL}/posts?_limit=${POSTS_PER_PAGE}&_expand=user&_embed=comments&userId=${id}`;
+      } else {
+        fetchUrl = `${API_URL}/posts?_limit=${POSTS_PER_PAGE}&_expand=user&_embed=comments`;
+      }
+      const res = await axios.get(fetchUrl);
       setPosts(res.data);
       console.log(res.data);
     }
 
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <Container>
       <h2>Posts</h2>
+
       {posts.map((post) => (
         <li key={post.id}>
-          <Link to={`/json-posts/${post.id}`}>
-            <Link to={`/json-users/${post.user.id}`}>Author: {post.user.name}</Link>
+          <Link to={`/json-users/${post.user.id}`}>Author: {post.user.name}</Link>
+          <Link to={`/json-post/${post.id}`}>
             Title: {post.title} ({post.comments.length} comments)
           </Link>
         </li>

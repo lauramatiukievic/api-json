@@ -26,12 +26,12 @@ function Post() {
     <Container>
       <h2>{post.title}</h2>
       <a href={`/json-users/${post.user.id}`}>{post.user.name} </a>
-      <a href={`/json-posts`}>Next author post's </a>
+      <a href={`/json-posts/${post.user.id}`}>Next author post's </a>
       {/* kazkasneveikia, su ejimu i kitus author posts */}
       <a href={`/json-posts`}>Back to post's</a>
       <p>{post.body}</p>
       {post.comments.map((comment) => (
-        <div>
+        <div key={comment.id}>
           <h3>{comment.name}</h3>
           <p>Title: {comment.body}</p>
           <a href={"mailto:" + comment.email}>{comment.email}</a>

@@ -3,10 +3,13 @@ import "./Navigation.css";
 
 function Navigation() {
   return (
-    <nav className="main-navigation">
+    <nav className="page-header">
+      <a className="header-title" href="./home">
+        API Project
+      </a>
       <ul className="link-list">
         <li className="nav-list">
-          <NavLink to="/" className="nav-link">
+          <NavLink to="/home" className="nav-link">
             Home
           </NavLink>
         </li>

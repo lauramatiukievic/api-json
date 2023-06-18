@@ -8,7 +8,7 @@ function User() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`${API_URL}/users/${id}`);
+      const res = await fetch(`${API_URL}/users/${id}?_embed=posts&_embed=albums`);
       const data = await res.json();
       setUser(data);
       console.log(data);
@@ -41,6 +41,25 @@ function User() {
       </a>
       <a href={user.website}>Website: {user.website}</a>
       <h4>Work place: {user.company.name}</h4>
+
+      <ul>
+        {" "}
+        Posts:
+        {user.posts.map((userPost) => (
+          <li key={userPost.id}>
+            <a href={`/json-post/${userPost.id}`}>Post Title: {userPost.title}</a>
+          </li>
+        ))}
+      </ul>
+
+      <ul>
+        Albums:
+        {user.albums.map((userAlbum) => (
+          <li key={userAlbum.id}>
+            <a href={`/json-albums/${userAlbum.id}`}>Album Title: {userAlbum.title}</a>
+          </li>
+        ))}
+      </ul>
     </Container>
   );
 }
