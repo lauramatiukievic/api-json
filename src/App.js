@@ -9,6 +9,7 @@ import Posts from "./pages/posts/Posts";
 import Albums from "./pages/albums/Albums";
 import Album from "./pages/album/Album";
 import Home from "./pages/home/Home";
+import Search from "./pages/search/Search";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/json-posts/:id" element={<Posts>Home Page</Posts>} />
         <Route path="/json-albums/:id" element={<Album>Home Page</Album>} />
         <Route path="/json-albums/" element={<Albums>Home Page</Albums>} />
+        <Route path="/json-search" element={<Search>Home Page</Search>} />
         <Route
           path="*"
           element={

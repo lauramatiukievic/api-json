@@ -1,7 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./Navigation.css";
+import SearchForm from "../searchComp/searchForm/SearchForm";
 
 function Navigation() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const sumbitHandler = (event, category, search) => {
+    event.preventDefault();
+    navigate("/json-search", { state: { search } });
+  };
+
   return (
     <nav className="page-header">
       <a className="header-title" href="./home">
@@ -29,7 +37,13 @@ function Navigation() {
             Albums
           </NavLink>
         </li>
+        <li className="nav-list">
+          <NavLink to="/json-search" className="nav-link">
+            Search
+          </NavLink>
+        </li>
       </ul>
+      {pathname !== "/json-search" && <SearchForm withCategory={false} onSubmit={sumbitHandler}></SearchForm>}
     </nav>
   );
 }
