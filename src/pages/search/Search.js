@@ -10,15 +10,13 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 function Search() {
-  const location = useLocation();
+  const { state } = useLocation();
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchPosts, setSearchPosts] = useState([]);
   const [searchAlbums, setSearchAlbums] = useState([]);
   useEffect(() => {
-    if (location.state) {
-      console.log(location);
-
-      searchData(location.state.search, null);
+    if (state) {
+      searchData(state.search, null);
     }
   }, []);
 
