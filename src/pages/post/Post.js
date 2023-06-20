@@ -4,32 +4,40 @@ import { API_URL } from "../../config";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import CreateComment from "../../components/createComment/CreateComment";
+import EditPage from "../../components/editPage/EditPage";
 
 function Post() {
   const { id } = useParams();
   const [post, setPosts] = useState(null);
   const [postDeleted, setPostDeleted] = useState(false);
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`${API_URL}/posts/${id}?_expand=user&_embed=comments`);
-      const data = await res.json();
-      setPosts(data);
-      console.log(data);
-    }
 
+  async function fetchData() {
+    const res = await fetch(`${API_URL}/posts/${id}?_expand=user&_embed=comments`);
+    const data = await res.json();
+    setPosts(data);
+    console.log(data);
+  }
+  useEffect(() => {
     fetchData();
   }, [id]);
 
-  if (!post) {
-    return "";
-  }
-
   const deleteHandler = () => {
-    axios.delete(`${API_URL}/posts/${id}?_expand=user&_embed=comments`).then((data) => setPostDeleted(true));
+    axios.delete(`${API_URL}/posts/${id}`).then((data) => setPostDeleted(true));
   };
-
+  const deleteCommentHandler = (id) => {
+    axios.delete(`${API_URL}/comments/${id}`);
+    fetchData();
+  };
   return (
     <Container>
+      <div>
+        <h2>Edit a post:</h2>
+        <EditPage></EditPage>
+      </div>
+      <div>
+        <h1>Create Comment</h1>
+      </div>
       {postDeleted ? (
         <>
           <h1>Post was deleted</h1>
@@ -42,17 +50,23 @@ function Post() {
             <button onClick={deleteHandler}>Delete post</button>
             <a href={`/json-users/${post.user.id}`}>{post.user.name} </a>
             <a href={`/json-posts/${post.user.id}`}>Next author post's </a>
-            {/* kazkasneveikia, su ejimu i kitus author posts */}
 
             <p>{post.body}</p>
-            {post.comments.map((comment) => (
-              <div key={comment.id}>
-                <h3>{comment.name}</h3>
+            <CreateComment></CreateComment>
 
-                <p>Title: {comment.body}</p>
-                <a href={"mailto:" + comment.email}>{comment.email}</a>
-              </div>
-            ))}
+            {post.comments.length === 0 ? (
+              <h1>All comments are deleted</h1>
+            ) : (
+              post.comments.map((comment) => (
+                <div key={comment.id}>
+                  <h3>Title: {comment.name}</h3>
+
+                  <button onClick={(event) => deleteCommentHandler(comment.id)}>Delete comment</button>
+                  <p>Body: {comment.body}</p>
+                  <a href={"mailto:" + comment.email}>{comment.email}</a>
+                </div>
+              ))
+            )}
           </>
         )
       )}

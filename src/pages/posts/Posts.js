@@ -5,6 +5,7 @@ import { API_URL, POSTS_PER_PAGE } from "../../config";
 import Container from "../../components/container/Container";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CreatePost from "../../components/createPost/CreatePost";
 
 function Posts() {
   const { id } = useParams();
@@ -28,6 +29,11 @@ function Posts() {
 
   return (
     <Container>
+      <div>
+        <h2>Create a new post</h2>
+        <CreatePost></CreatePost>
+      </div>
+
       <h2>Posts</h2>
 
       {posts.map((post) => (

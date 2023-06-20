@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL, ALBUMS_PER_PAGE } from "../../config";
 import Container from "../../components/container/Container";
+import CreateAlbum from "../../components/createAlbum/CreateAlbum";
 
 function Albums() {
   const [albums, setAlbums] = useState([]);
@@ -17,6 +18,8 @@ function Albums() {
 
   return (
     <Container>
+      <CreateAlbum></CreateAlbum>
+
       {albums.map((album) => (
         <div key={album.id}>
           <h3>Albums title:{album.title}</h3>

@@ -20,9 +20,12 @@ export default function SimpleGallery(props) {
   return (
     <div className="pswp-gallery" id={props.galleryID}>
       {props.images.map((image, index) => (
-        <a href={image.largeURL} data-pswp-width={600} data-pswp-height={600} key={props.galleryID + "-" + index} target="_blank" rel="noreferrer">
-          <img src={image.thumbnailURL} alt="" />
-        </a>
+        <span key={image.id}>
+          <a href={image.largeURL} data-pswp-width={600} data-pswp-height={600} key={props.galleryID + "-" + index} target="_blank" rel="noreferrer">
+            <img src={image.thumbnailURL} alt="" />
+          </a>
+          <button onClick={(event) => props.onDelete(image.id)}>Delete photo</button>
+        </span>
       ))}
     </div>
   );

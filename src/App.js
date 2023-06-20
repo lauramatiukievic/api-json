@@ -26,6 +26,7 @@ function App() {
         <Route path="/json-albums/:id" element={<Album>Home Page</Album>} />
         <Route path="/json-albums/" element={<Albums>Home Page</Albums>} />
         <Route path="/json-search" element={<Search>Home Page</Search>} />
+
         <Route
           path="*"
           element={
