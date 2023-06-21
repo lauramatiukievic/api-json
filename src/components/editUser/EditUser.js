@@ -134,7 +134,7 @@ function EditUser() {
             </div>
           </div>
 
-          <input type="submit" value="Save" />
+          <input type="submit" value="Save edited user" />
         </form>
       ) : (
         <button onClick={() => setIsEdit(true)}> Edit user</button>

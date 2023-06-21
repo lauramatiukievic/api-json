@@ -52,7 +52,7 @@ function Post() {
             <a href={`/json-posts/${post.user.id}`}>Next author post's </a>
 
             <p>{post.body}</p>
-            <CreateComment postId={id}></CreateComment>
+            <CreateComment onCreate={fetchData} postId={id}></CreateComment>
 
             {post.comments.length === 0 ? (
               <h1>All comments are deleted</h1>

@@ -11,6 +11,7 @@ const EditPage = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [user, setUser] = useState("");
+  const [isPost, setIsPost] = useState(false);
 
   useEffect(() => {
     axios.get(`${API_URL}/posts/${id}`).then((res) => {
@@ -43,35 +44,40 @@ const EditPage = () => {
         userId: Number(user),
       })
       .then((res) => console.log(res.data));
+    setIsPost(false);
   };
 
   return (
-    <Container>
-      <form onSubmit={editPostHandler}>
-        <div className="form-control">
-          <label htmlFor="title">Title:</label>
-          <input type="text" id="title" name="title" value={title} onChange={titleHandler} />
-        </div>
+    <>
+      {isPost ? (
+        <form onSubmit={editPostHandler}>
+          <div className="form-control">
+            <label htmlFor="title">Title:</label>
+            <input type="text" id="title" name="title" value={title} onChange={titleHandler} />
+          </div>
 
-        <div className="form-control">
-          <label htmlFor="body">Body:</label>
-          <textarea id="body" name="body" rows="5" cols="30" value={body} onChange={bodyHandler}></textarea>
-        </div>
+          <div className="form-control">
+            <label htmlFor="body">Body:</label>
+            <textarea id="body" name="body" rows="5" cols="30" value={body} onChange={bodyHandler}></textarea>
+          </div>
 
-        <div className="form-control">
-          <label htmlFor="user">User:</label>
-          <select id="user" name="user" value={user} onChange={userHandler}>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="form-control">
+            <label htmlFor="user">User:</label>
+            <select id="user" name="user" value={user} onChange={userHandler}>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <input type="submit" value="Save edited post" />
-      </form>
-    </Container>
+          <input type="submit" value="Save edited post" />
+        </form>
+      ) : (
+        <button onClick={() => setIsPost(true)}>Edit post</button>
+      )}
+    </>
   );
 };
 
