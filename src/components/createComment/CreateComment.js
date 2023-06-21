@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
 
-function CreateComment() {
+function CreateComment({ postId }) {
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
   const [user, setUser] = useState("");
@@ -22,6 +22,7 @@ function CreateComment() {
   const newCommentHandler = (event) => {
     event.preventDefault();
     const newComment = {
+      postId: postId,
       name: name,
       body: body,
       email: email,
