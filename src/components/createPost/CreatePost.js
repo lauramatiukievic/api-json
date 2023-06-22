@@ -6,25 +6,24 @@ function CreatePost() {
   const [users, setUsers] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [user, setUser] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     axios.get(`${API_URL}/users`).then((res) => {
-      setUser(res.data[0].id);
       setUsers(res.data);
     });
   }, []);
 
   const titleHandler = (event) => setTitle(event.target.value);
   const bodyHandler = (event) => setBody(event.target.value);
-  const userHandler = (event) => setUser(event.target.value);
+  const userHandler = (event) => setUserId(event.target.value);
 
   const newPostHandler = (event) => {
     event.preventDefault();
     const newPost = {
       title: title,
       body: body,
-      userId: Number(user),
+      userId: Number(userId),
     };
 
     axios.post(`${API_URL}/posts`, newPost).then((res) => console.log(res.data));
@@ -51,8 +50,7 @@ function CreatePost() {
 
         <div className="form-control">
           <label htmlFor="user">User:</label>
-
-          <select id="user" name="user" value={user} onChange={userHandler}>
+          <select id="user" name="user" value={userId} onChange={userHandler}>
             <option value="" disabled>
               Select User
             </option>

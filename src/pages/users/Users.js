@@ -5,7 +5,8 @@ import { API_URL } from "../../config";
 import "./Users.css";
 
 import Container from "../../components/container/Container";
-import CreateUser from "../../components/createUser/CreateUser";
+
+import UserForm from "../../components/userForm/UserForm";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const Users = () => {
   return (
     <Container>
       <h1>Create user</h1>
-      <CreateUser onCreate={fetchData}></CreateUser>
+      <UserForm onCreate={fetchData}></UserForm>
       <div className="users-container">
         <h1>Users:</h1>
         <ul>

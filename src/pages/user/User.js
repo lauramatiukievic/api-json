@@ -4,23 +4,26 @@ import { API_URL } from "../../config";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import EditUser from "../../components/editUser/EditUser";
+
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import UserForm from "../../components/userForm/UserForm";
 
 function User() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [userDeleted, setUserDeleted] = useState(false);
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`${API_URL}/users/${id}?_embed=posts&_embed=albums`);
-      const data = await res.json();
-      setUser(data);
-      console.log(data);
-    }
 
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  async function fetchData() {
+    const res = await fetch(`${API_URL}/users/${id}?_embed=posts&_embed=albums`);
+    const data = await res.json();
+    setUser(data);
+    console.log(data);
+  }
+  useEffect(() => {
     fetchData();
   }, [id]);
 
@@ -41,6 +44,12 @@ function User() {
         toast.error(error.message);
       });
   };
+
+  const editUserHandler = (user) => {
+    axios.put(`${API_URL}/users/${user.id}`, user).then((res) => console.log(res.data));
+    setSelectedUser(null);
+    fetchData();
+  };
   return (
     <Container>
       {userDeleted ? (
@@ -53,7 +62,7 @@ function User() {
           <>
             <div>
               <h2>Edit a user:</h2>
-              <EditUser></EditUser>
+              <UserForm onEdit={editUserHandler} onCreate={fetchData} selectedUser={user}></UserForm>
               {/* {errorMessage && <p style={{ color: "pink" }}>{errorMessage}</p>} */}
             </div>
             <h2> User Info:</h2>
