@@ -30,6 +30,12 @@ function CreatePost() {
     axios.post(`${API_URL}/posts`, newPost).then((res) => console.log(res.data));
   };
 
+  let usersOptionEl = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
+
   return (
     <Container>
       <form onSubmit={newPostHandler}>
@@ -45,12 +51,12 @@ function CreatePost() {
 
         <div className="form-control">
           <label htmlFor="user">User:</label>
+
           <select id="user" name="user" value={user} onChange={userHandler}>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            <option value="" disabled>
+              Select User
+            </option>
+            {usersOptionEl}
           </select>
         </div>
 

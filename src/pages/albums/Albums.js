@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL, ALBUMS_PER_PAGE } from "../../config";
 import Container from "../../components/container/Container";
 import CreateAlbum from "../../components/createAlbum/CreateAlbum";
+import { Link } from "react-router-dom";
 
 function Albums() {
   const [albums, setAlbums] = useState([]);
@@ -25,9 +26,9 @@ function Albums() {
           <h3>Albums title:{album.title}</h3>
           <span>By: {album.user.name}</span>
           <p>Photos:{album.photos.length}</p>
-          <a href={`/json-albums/${album.id}`}>
+          <Link to={`/json-albums/${album.id}`}>
             <img alt="" src={album.photos[0].thumbnailUrl} />
-          </a>
+          </Link>
         </div>
       ))}
     </Container>

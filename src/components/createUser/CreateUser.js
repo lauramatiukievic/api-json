@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
 
@@ -8,7 +8,6 @@ function CreateUser({ onCreate }) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState([]);
   const [street, setStreet] = useState("");
   const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
@@ -18,12 +17,6 @@ function CreateUser({ onCreate }) {
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [companyName, setCompanyName] = useState("");
-
-  useEffect(() => {
-    axios.get(`${API_URL}/users`).then((res) => {
-      setUser(res.data[0].id);
-    });
-  }, []);
 
   const nameHandler = (event) => setName(event.target.value);
   const surnameHandler = (event) => setSurname(event.target.value);
@@ -48,7 +41,6 @@ function CreateUser({ onCreate }) {
       phone: phone,
       website: website,
       company: { companyName: companyName },
-      userId: Number(user),
     };
 
     axios.post(`${API_URL}/users`, newUser).then((res) => console.log(res.data));

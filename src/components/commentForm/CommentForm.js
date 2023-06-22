@@ -3,18 +3,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
 
-function CreateComment({ postId, onCreate }) {
+function CommentForm({ onCreate, onEdit, postId, selectedComment }) {
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
-  const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    axios.get(`${API_URL}/users`).then((res) => {
-      setUser(res.data[0].id);
-      setUser(res.data);
-    });
-  }, []);
+    if (selectedComment) {
+      setName(selectedComment.name);
+      setBody(selectedComment.body);
+      setEmail(selectedComment.email);
+    } else {
+      clearFields();
+    }
+  }, [selectedComment]);
 
   const nameHandler = (event) => setName(event.target.value);
   const bodyHandler = (event) => setBody(event.target.value);
@@ -27,11 +29,30 @@ function CreateComment({ postId, onCreate }) {
       name: name,
       body: body,
       email: email,
-      userId: Number(user),
     };
 
     axios.post(`${API_URL}/comments`, newComment).then((res) => console.log(res.data));
     onCreate();
+    clearFields();
+  };
+
+  const editCommentHandler = (event) => {
+    event.preventDefault();
+    const editedComment = {
+      id: selectedComment.id,
+      name: name,
+      body: body,
+      email: email,
+      postId: selectedComment.postId,
+    };
+    onEdit(editedComment);
+    clearFields();
+  };
+
+  const clearFields = () => {
+    setName("");
+    setBody("");
+    setEmail("");
   };
 
   return (
@@ -50,10 +71,9 @@ function CreateComment({ postId, onCreate }) {
         <label htmlFor="email">Email:</label>
         <input type="email" id="email" name="email" value={email} onChange={emailHandler} />
       </div>
-
-      <input type="submit" value="Create new comment" />
+      {selectedComment ? <button onClick={editCommentHandler}>Save edit comment</button> : <input type="submit" value="Create new comment" />}
     </form>
   );
 }
 
-export default CreateComment;
+export default CommentForm;

@@ -35,15 +35,16 @@ function Posts() {
       </div>
 
       <h2>Posts</h2>
-
-      {posts.map((post) => (
-        <li key={post.id}>
-          <Link to={`/json-users/${post.user.id}`}>Author: {post.user.name}</Link>
-          <Link to={`/json-post/${post.id}`}>
-            Title: {post.title} ({post.comments.length} comments)
-          </Link>
-        </li>
-      ))}
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            <Link to={`/json-users/${post.user.id}`}>Author: {post.user.name}</Link>
+            <Link to={`/json-post/${post.id}`}>
+              Title: {post.title} ({post.comments.length} comments)
+            </Link>
+          </li>
+        ))}
+      </ul>
     </Container>
   );
 }
